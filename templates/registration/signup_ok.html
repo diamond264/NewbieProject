@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends "mia/base.html" %}
+{% load staticfiles %}
+
+{% block title %}MIA{% endblock %}
+
+{% block category %}
+    <li ><a href="/">Home</a></li>
+    {% for category in category_list %}
+    <li><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+        {{ category.korName }}
+    </a></li>
+    {% endfor %}
+{% endblock %}
+{% block main %}
+		<center>
+			Successfully signed up. Do you wanto to log in?<br>
+			<a href="{% url 'login' %}"> Log In</a>
+		</center>
+{% endblock %}

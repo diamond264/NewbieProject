@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "mia/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Signup{% endblock %}
+
+{% block category %}
+    <li><a href="/">Home</a></li>
+    {% for category in category_list %}
+    <li><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+        {{ category.korName }}
+    </a></li>
+    {% endfor %}
+{% endblock %}
+{% block main %}
+<div align="center">
+    <form id="signup" method="POST" action="/signup/">{% csrf_token %}
+        <fieldset>
+            <div>
+                {{ form.username.label_tag }} {{ form.username }}
+            </div>
+            <div>
+                {{ form.email.label_tag }} {{ form.email }}
+            </div>
+            <div>
+                {{ form.password1.label_tag }} {{ form.password1 }}
+            </div>
+            <div>
+                {{ form.password2.label_tag }} {{ form.password2 }}
+            </div>
+        </fieldset>
+        <button type="submit" id="submit" class="btn btn-success">회원가입</button>
+    </form>
+</div>
+{% endblock %}
+
+<!--<button type="button" id="duplcheck" class="btn btn-default">중복확인</button><br>-->

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends "mia/base.html" %}
+{% load staticfiles %}
+
+{% block title %}MIA{% endblock %}
+
+{% block category %}
+    <li><a href="/">Home</a></li>
+    {% for category in category_list %}
+    <li><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+        {{ category.korName }}
+    </a></li>
+    {% endfor %}
+{% endblock %}
+{% block main %}
+<div class="page-header" align="center">
+<h1 style="color:white">Logged out!</h1>
+<br/>
+<a class="btn btn-default" href="/accounts/login/">Login Again</a>
+<a class="btn btn-default" href="/">Go Home</a>
+<br/><br/>
+</div>
+{% endblock %}

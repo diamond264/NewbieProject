@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+{% extends "mia/base_post.html" %}
+
+{% block title %}게시판{% endblock %}
+
+{% block top_bar %}
+    <li><a href="/">Home</a></li>
+    {% for category in category_list %}
+        {% if select_category == category.id %}
+        <li class="active"><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+            {{ category.korName }}
+        </a></li>
+        {% else %}
+        <li><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+            {{ category.korName }}
+        </a></li>
+        {% endif %}
+        {% endfor %}
+{% endblock %}
+
+{% block menu %}
+    {% for board in board_list %}
+    <a href="/posts/{{ select_category }}/{{ board.id }}" id="b_{{ board.id }}" class="list-group-item">
+        {{ board.korName }}
+    </a>
+    {% endfor %}
+{% endblock %}
+{% block content %}
+    <div class="blog-post">
+        <h1 class="blog-post-title">{{ post.title }}</h1>
+        <p class="blog-post-meta">{{ post.created_at }} by {{ post.author }}</p>
+        <hr>
+        {{ post.content|linebreaks }}
+        <hr>
+        <img src="{{ post.photo.url }}"/>
+        {% if post.author == user.username %}
+        <a class="btn btn-default pull-right" href="/posts/edit/{{ post.pk }}" style="margin-left:10px">수정</a>
+        <a class="btn btn-default pull-right" href="/posts/delete/{{ post.pk }}">삭제</a>
+        <br/><br/><br/>
+        {% endif %}
+        <table class="table table-striped">
+        <tbody>
+        {% for comment in post.comment_set.all %}
+        <tr>
+            <td>
+                {{ comment.message }}
+                <small>by {{ comment.author }}, {{ comment.created_at }}</small>
+                {% if post.author == user.username %}
+                <a href="/comment/delete/{{ comment.pk }}">삭제</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        {% if user.is_authenticated %}
+        <a  onclick="test('write_comment'); return false;" href="#">댓글 쓰기</a><br/><br/>
+        <div id="write_comment" align="left" style="display:none;">
+            <form method="POST" action="/posts/{{ select_category }}/{{ select_board }}/{{ post.id }}/" class="post-form">
+                {% csrf_token %}
+                <textarea name="message" style="width:600px; height:100px;"></textarea><br /><br />
+                <button type="submit" class="save btn btn-default" style="width:100px; height:30px;">Save</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+<script>
+function test(idMyDiv){
+     var objDiv = document.getElementById(idMyDiv);
+     if(objDiv.style.display=="block"){ objDiv.style.display = "none"; }
+      else{ objDiv.style.display = "block"; }
+}
+</script>
+{% endblock %}

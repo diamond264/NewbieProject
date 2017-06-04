@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "mia/base.html" %}
+{% load staticfiles %}
+
+{% block title %}MIA{% endblock %}
+
+{% block category %}
+    <li ><a href="/">Home</a></li>
+    {% for category in category_list %}
+    <li><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+        {{ category.korName }}
+    </a></li>
+    {% endfor %}
+{% endblock %}
+{% block main %}
+<div align="center">
+{% if form.errors %}
+<p>ID나 비밀번호가 일치하지 않습니다.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>권한이 없는 페이지에 접근하였으니, 권한이 있는 계정으로 로그인하세요.</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<div class="page-header">
+    <h3 style="color:white">{{ form.username.label_tag }}</h3> <h3>{{ form.username }}</h3>
+    <h3 style="color:white">{{ form.password.label_tag }}</h3> <h3>{{ form.password }}</h3>
+    <br/>
+    <button type="submit" class="save btn btn-default" style="width:200px; height:50px;">Save</button><br/><br/>
+</div>
+</form>
+</div>
+{% endblock %}

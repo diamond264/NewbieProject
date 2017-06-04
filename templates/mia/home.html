@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends "mia/base.html" %}
+{% load staticfiles %}
+
+{% block title %}MIA{% endblock %}
+
+{% block category %}
+    <li class="active"><a href="/">Home</a></li>
+    {% for category in category_list %}
+    <li><a href="/posts/{{ category.id }}" id="c_{{ category.id }}">
+        {{ category.korName }}
+    </a></li>
+    {% endfor %}
+{% endblock %}
+
+{% block main %}
+<br />
+<div id="div_find" align="center">
+    <img src="{% static 'img/find.png' %}" alt="찾기" />
+</div>
+<br />
+<div id="div_img" align="center" style="display:block;">
+    <p class="p_campus">
+        <img class='campus_img' src="{% static 'img/campus.png' %}" alt="HTML5 Icon why..">
+        {% for tuple in target %}
+        <a href="/posts/{{ tuple.0.categoryId.id }}/{{ tuple.0.id }}">
+            <div class="circle_in_map" style="top:{{ tuple.1 }}px;left:{{ tuple.2 }}px;" onmouseover="this.style.opacity='0.8'"
+                 onmouseout="this.style.opacity='0.4'">
+                <h3 class="text_circle">Search</h3>
+            </div>
+        </a>
+        {% endfor %}
+    </p>
+</div>
+<br /><br /><br />
+
+<hr>
+{% if user.is_authenticated %}
+<div id="div_report" align="center">
+    <a href="/posts/new">
+        <img src="{% static 'img/speaker2.png' %}" alt="제보하기" />
+    </a>
+</div>
+{% else %}
+<div id="div_report" align="center">
+    <a href="/accounts/login">
+        <img src="{% static 'img/speaker2.png' %}" alt="제보하기" />
+    </a>
+</div>
+{% endif %}
+<hr>
+<br /><br /><br /><br /><br /><br />
+{% endblock %}

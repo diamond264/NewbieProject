@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시글 작성</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}?ver=2" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/theme.css' %}?ver=2" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?ver=4">
+</head>
+<body>
+<div id="div_top">
+    <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">KAIST MIA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              {% block top_bar %}{% endblock %}
+            <!--<li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>-->
+          </ul>
+        </div>
+    </div>
+    </nav>
+</div>
+<div class="page-header" align="center">
+   <h1 style="color:white">Report Losts</h1>
+  </div>
+  <div class="container lotto" align="center">
+   <form method="POST" action="/posts/new/" class="post-form">
+       {% csrf_token %}
+       <span>Title</span><br />
+       <input type="text" name="title" style="width:300px;" /><br /><br />
+       <input type="file" name="photo"/><br/><br/>
+
+       <span>Board</span><br />
+       <select name="board">
+           {% for board in board_list %}
+           <option value="{{ board.name }}" name="name">{{ board.korName }}</option>
+           {% endfor %}
+       </select><br /><br /><br />
+
+       <textarea name="content" style="width:600px; height:200px;"></textarea><br /><br />
+       <button type="submit" class="save btn btn-default" style="width:200px; height:50px;">Save</button>
+   </form>
+  </div>
+</body>
+</html>
